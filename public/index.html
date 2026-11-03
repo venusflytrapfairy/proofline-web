@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofline</title>
+  <meta name="description" content="Gather proof of AI-facilitated abuse and get it taken down. Your evidence files are processed on your own device.">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FBE4EC">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preload" href="/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <a class="skip" id="skip" href="#main">Skip to content</a>
+
+  <header class="site-head" id="top"></header>
+
+  <main id="main" class="wrap"></main>
+
+  <footer class="site-foot" id="foot"></footer>
+
+  <dialog id="dialog" aria-labelledby="dialog-title">
+    <form method="dialog" class="dialog-body">
+      <h2 id="dialog-title" tabindex="-1"></h2>
+      <div id="dialog-content"></div>
+      <div class="dialog-actions">
+        <button class="btn btn-secondary" value="cancel" id="dialog-cancel">Cancel</button>
+        <button class="btn btn-primary" value="ok" id="dialog-ok">OK</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <noscript><p class="noscript">Proofline needs JavaScript to process your evidence on this device. / يحتاج Proofline إلى JavaScript لمعالجة أدلتك على هذا الجهاز.</p></noscript>
+
+  <script src="/vendor/exifr.umd.js" defer></script>
+  <script src="/vendor/spark-md5.min.js" defer></script>
+  <script src="/vendor/jspdf.umd.min.js" defer></script>
+  <script src="/vendor/fflate.umd.js" defer></script>
+  <script src="/ocr/tesseract.min.js" defer></script>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
