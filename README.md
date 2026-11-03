@@ -61,11 +61,6 @@ tests/                  JavaScript and Python tests
 - **Nothing is stored.** No database, no cookies, no localStorage. Closing the tab erases everything, and *Clear everything* reloads the page to wipe memory.
 - **No third-party requests.** All fonts and libraries are self-hosted, and the Content-Security-Policy only allows the site to talk to itself. External links, such as StopNCII or DeepShield, open only when the user clicks them.
 - **The AI option is opt-in.** The browser hides names, emails, phone numbers (including Arabic digits), usernames and links first, and shows the exact text that will be sent. `api/refine.py` forwards it to OpenRouter and logs nothing.
-- **The limits, stated honestly:**
-  - Free OpenRouter models may log prompts. The app warns about this.
-  - Redaction is pattern-based and can miss names the user didn't list.
-  - A fingerprint proves a file hasn't changed since it was sealed, not that it was genuine when captured.
-  - DeepShield is a separate site: files checked there are uploaded to its server. The app says so.
 
 ---
 
@@ -110,14 +105,59 @@ After you change an environment variable, go to **Deployments → ⋯ → Redepl
 
 ---
 
-## Before real users rely on it
-
-- [ ] Re-verify the directory and platform guides (`DIRECTORY_LAST_CHECKED` and `GUIDES_LAST_CHECKED` in `public/js/data.js`). Three entries are flagged in the app: Saudi Arabia's 1909, Egypt's Ministry of Health lines, and the Telegram abuse email.
-- [ ] Have a native Arabic speaker, ideally from a frontline organisation, review the Arabic wording, especially in the guides and the PDF.
-- [ ] Confirm the OpenRouter model is live, and check its data policy.
-- [ ] Ask DeepShield to publish how it handles uploaded files, so users can decide what to check there.
+## To do
 - [ ] Test with survivors and frontline organisations, and get legal review per country.
 - [ ] Add rate limiting to `/api/refine` (for example Vercel Firewall rules).
+- [ ] Add forensic social media capture features
+
+## Contribute: bring Proofline to your region
+
+Proofline started with five pilot countries: the UAE, Saudi Arabia, Egypt, Jordan and Lebanon. AI-facilitated abuse is everywhere, and the people best placed to make Proofline useful in a new country are the people who live and work there. We'd love pull requests from activists, frontline organisations, students and developers who know their region.
+
+### Add your country
+
+Everything a country needs is in `public/js/data.js`, inside `COUNTRIES`. A new country appears automatically in the country picker, the footer and **Get help**.
+
+1. **Fork** this repo and create a branch, for example `add-morocco`.
+2. In `public/js/data.js`, copy an existing country inside `COUNTRIES` (Jordan is a good, compact example) and edit it:
+   - `name` and `emergency`: the country's name, and its emergency numbers.
+   - `police`: official routes for reporting cybercrime, blackmail or threats.
+   - `support`: hotlines, women's organisations, legal aid and mental-health support.
+   - `notes`: short facts worth knowing, such as which law covers online blackmail.
+3. Each contact looks like this:
+   ```js
+   {
+     name: { en: "Name of the service", ar: "اسم الخدمة" },
+     what: { en: "What it does, in one or two sentences.", ar: "ما الذي تقدّمه، في جملة أو جملتين." },
+     contact: ["+212 5 00 00 00 00", "https://example.org/report", { en: "WhatsApp: …", ar: "واتساب: …" }],
+     note: { en: "Optional: opening hours, limits, or anything to be careful about.", ar: "اختياري: …" },
+     source: "https://the-page-where-you-verified-this",
+   },
+   ```
+   - Every piece of text is an `{ en, ar }` pair, and phone numbers and links are plain strings.
+   - If you can only write one of the two languages, fill in both as best you can and say so in your pull request. We'll arrange a review.
+4. Run it locally (see [Test it locally](#test-it-locally-vs-code-windows)), choose your country and check every tab under **Get help**, in English and with `?lang=ar`.
+5. Run the tests (`node --test tests/js.test.mjs`). They check that every entry has both languages.
+6. Open a **pull request** that lists your sources and the date you checked them.
+
+**What we check before merging**
+
+- Every entry has a `source` link to an official or well-established page: a government site, the organisation's own site, or reputable news. We don't add personal numbers or unverified groups.
+- You checked each contact recently (in the last month), ideally by visiting the official page or calling the number.
+- The service is safe for the women and girls who will use it. Use `note` to flag anything they should know first, for example if a line may contact family or a guardian, only covers one city, or isn't confidential.
+- Free and confidential services come first.
+
+### Other ways to help
+
+- **Fix a broken link or an out-of-date step** in the platform guides (`PLATFORM_GUIDES` in `public/js/data.js`), and update `GUIDES_LAST_CHECKED`.
+- **Add a platform** that's widely used in your region.
+- **Improve the Arabic** in `public/js/i18n.js`, `public/js/data.js` and `public/js/forms.js`. We use Modern Standard Arabic and address the reader in the feminine.
+- **Add a language**, for example French for North Africa or Persian. This is a bigger change, because every piece of text is currently an English/Arabic pair, so please open an issue first and we'll plan it with you.
+- **Report a bug** by opening an issue.
+
+**Never include real evidence in an issue or pull request.** That means no screenshots of abuse, no one's name, number or account, and no real case details. Use made-up examples instead.
+
+If you find a **privacy or security problem**, please don't open a public issue. Report it privately through the repo's **Security** tab instead (**Report a vulnerability**).
 
 ## Sources
 
@@ -130,4 +170,4 @@ After you change an environment variable, go to **Deployments → ⋯ → Redepl
 
 ## Licences
 
-Bundled third-party code and fonts keep their own licences (see `public/vendor/LICENSE-*` and `public/fonts/LICENSE-*`): jsPDF, fflate, exifr, SparkMD5, Tesseract.js (Apache-2.0), Bricolage Grotesque, Readex Pro and Noto Sans Arabic (OFL), and DejaVu fonts. The Proofline logo belongs to its creators.
+Bundled third-party code and fonts keep their own licences (see `public/vendor/LICENSE-*` and `public/fonts/LICENSE-*`): jsPDF, fflate, exifr, SparkMD5, Tesseract.js (Apache-2.0), Bricolage Grotesque, Readex Pro and Noto Sans Arabic (OFL), and DejaVu fonts. The Proofline logo belongs to us.
